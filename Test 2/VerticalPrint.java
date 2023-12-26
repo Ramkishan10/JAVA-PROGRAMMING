@@ -1,21 +1,37 @@
 package placement_training;
 import java.util.Scanner;
-
-public class VerticalPrint {
-    public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-        System.out.print("Enter a string: ");
-        String inputString = scanner.next();
-        verticalPrint(inputString);
-        scanner.close();
-    }
-    private static void verticalPrint(String input) {
-        for (int i = 0; i < input.length(); i++) {
-            char currentChar = input.charAt(i);
-            for (int j = 0; j < i; j++) {
+import java.util.Scanner;
+public class VerticalPrint 
+{
+    public static void printVerticalPattern(String input) 
+    {
+        int length = input.length();
+        int n = (length+2)/3;
+        System.out.println(n);
+        for(int i=0;i<n;i++)
+        {
+            System.out.print(input.charAt(i));
+        }
+        System.out.println();
+        for(int j=0;j<n-2;j++)
+        {
+            int space = n-j-2;
+            for(int k=0;k<space;k++)
+            {
                 System.out.print(" ");
             }
-            System.out.println(currentChar);
+            System.out.print(input.charAt(n+j));
+            System.out.println();
         }
+        for(int x=0;x<n;x++)
+        {
+            System.out.print(input.charAt(2*n+x-2));
+        }
+    }
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        String input = in.next();
+        printVerticalPattern(input);
+        in.close();
     }
 }
