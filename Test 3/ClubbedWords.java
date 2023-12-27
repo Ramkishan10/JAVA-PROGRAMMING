@@ -1,42 +1,60 @@
 package placement_training;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+
+import java.util.*;
+
+
 public class ClubbedWords {
-    public static List<String> findAllClubbedWords(String[] words) {
+    public static List<String> findClubbedWords(String[] words) {
         List<String> result = new ArrayList<>();
+
         Set<String> wordSet = new HashSet<>(Arrays.asList(words));
+
         for (String word : words) {
-            wordSet.remove(word); 
+            wordSet.remove(word);
             if (isClubbedWord(word, wordSet)) {
                 result.add(word);
             }
-            wordSet.add(word);
+            wordSet.add(word); 
         }
+
         return result;
     }
+
     private static boolean isClubbedWord(String word, Set<String> wordSet) {
         if (word.isEmpty()) {
             return false;
         }
-        boolean[] dp = new boolean[word.length() + 1];
-        dp[0] = true;
-        for (int i = 1; i <= word.length(); i++) {
-            for (int j = 0; j < i; j++) {
-                String prefix = word.substring(j, i);
-                if (dp[j] && wordSet.contains(prefix)) {
-                    dp[i] = true;
-                    break;
-                }
+
+        int n = word.length();
+
+        for (int i = 1; i <= n; i++) {
+            String prefix = word.substring(0, i);
+            String suffix = word.substring(i);
+
+            if (wordSet.contains(prefix) && (wordSet.contains(suffix) || isClubbedWord(suffix, wordSet))) {
+                return true;
             }
         }
-        return dp[word.length()];
+
+        return false;
     }
+
     public static void main(String[] args) {
-        String[] words = {"mat", "mate", "matbellmates", "bell", "bellmatesbell", "butterribbon", "butter", "ribbon"};
-        List<String> clubbedWords = findAllClubbedWords(words);
-        System.out.println(clubbedWords);
+        int n;
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Enter the no of elements:");
+        n = sc.nextInt();
+        String[] arr = new String[n];
+        System.out.println("Enter the elements:");
+        sc.nextLine();
+        for(int i=0;i<n;i++){
+           arr[i] = sc.nextLine();
+        }
+        List<String> clubbedWords = findClubbedWords(arr);
+
+        System.out.println("Input: " + Arrays.toString(arr));
+        System.out.println("Output: " + clubbedWords);
     }
 }
+
+//mat","mate","matbellmates","bell","bellmatesbell","butterribbon","butter","ribbon
